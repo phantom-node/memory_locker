@@ -17,6 +17,10 @@ class MemoryLocker
     raise LockingError, "Locking of memory failed with errno #{errno}" unless result.zero?
   end
 
+  def self.call
+    new.call
+  end
+
   private
 
   attr_reader :libc
