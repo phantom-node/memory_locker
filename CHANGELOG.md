@@ -1,3 +1,7 @@
+## [1.0.2] - 2023-07-28
+
+- Don't load libc if already loaded in the current process
+
 ## [1.0.1] - 2023-07-28
 
 - Update Changelog
