@@ -1,4 +1,5 @@
 # MemoryLocker
+[![Gem Version](https://badge.fury.io/rb/memory_locker.svg)](https://badge.fury.io/rb/memory_locker)
 
 Lock memory containing sensitive data (such as passwords or cryptographic keys) to prevent it from being swapped
 by the kernel, which allows the attacker with access to swap space to recover secrets.
