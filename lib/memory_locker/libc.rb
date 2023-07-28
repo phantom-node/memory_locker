@@ -9,7 +9,7 @@ class MemoryLocker
 
     extend FFI::Library
     # Try to load already loaded libc from the current process, use system libc as a fallback
-    ffi_lib [FFI::CURRENT_PROCESS, FFI::Library::LIBC], FFI::Library::LIBC
+    ffi_lib [FFI::CURRENT_PROCESS, FFI::Library::LIBC]
     attach_function :real_mlockall, :mlockall, [:int], :int
 
     def self.mlockall
