@@ -1,3 +1,12 @@
+## [1.0.0] - 2023-07-28
+
+- Support for all c-libraries supported by FFI with automatic detection
+- Use in-memory loaded c-library if possible
+- Use #call on main object/class instead of #lock for easier mocking
+- More meaningful exceptions
+- Clear separation between high- and low-level things
+- Much better tests
+
 ## [0.1.0] - 2023-07-27
 
 - Initial release
