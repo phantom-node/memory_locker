@@ -1,3 +1,7 @@
+## [1.0.1] - 2023-07-28
+
+- Update Changelog
+
 ## [1.0.0] - 2023-07-28
 
 - Support for all c-libraries supported by FFI with automatic detection
