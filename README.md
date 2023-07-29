@@ -19,12 +19,16 @@ Subprocesses don't inherit memory locking. Make sure to lock memory in each one 
 
 ## Requirements
 
-This gem requires [ffi gem](https://github.com/ffi/ffi), which needs to be built on install.
-In case of build-related issues, make sure you have the compiler installed.
+OS support for [mlockall()](https://linux.die.net/man/2/mlockall) is required.
+Will work on most Unixes except macOS. Windows is not supported.
+
+The gem requires [ffi gem](https://github.com/ffi/ffi), which will be automatically downloaded
+and built during installation. The build process requires a compiler and headers.
 Refer to gem documentation for instructions.
 
-Also, an OS supporting [mlockall()](https://linux.die.net/man/2/mlockall) is required.
-Those include most Unixes except macOS. Windows is not supported.
+If you use Debian-based system, you can skip building by installing precompiled gem package:
+
+    $ sudo apt install ruby-ffi
 
 ## Installation
 
