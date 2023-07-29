@@ -7,7 +7,7 @@ by the kernel, which allows the attacker with access to swap space to recover se
 ## How it works
 
 Ruby doesn't allow granular memory management, therefore the approach is to lock the entire memory of a current
-process using `mlockall()`.
+process using [mlockall()](https://linux.die.net/man/2/mlockall).
 
 The memory will stay locked until the process terminates. Although unlocking memory is technically possible,
 the gem doesn't allow it. The reason is Ruby doesn't support reliable removal of secrets from memory,
@@ -23,7 +23,8 @@ This gem requires [ffi gem](https://github.com/ffi/ffi), which needs to be built
 In case of build-related issues, make sure you have the compiler installed.
 Refer to gem documentation for instructions.
 
-Also, an OS supporting `mlockall()` is required. Those include most Unixes except macOS. Windows is not supported.
+Also, an OS supporting [mlockall()](https://linux.die.net/man/2/mlockall) is required.
+Those include most Unixes except macOS. Windows is not supported.
 
 ## Installation
 
@@ -53,7 +54,7 @@ If the user doesn't have it installed, the warning will appear, but your app wil
 
 ## Exceptions
 
-If your OS is unsupported or there was a locking error, you will get an exception descending from MemoryLocker::Error.
+If your OS is unsupported or there was a locking error, you will get an exception descending from `MemoryLocker::Error`.
 
 ## Testing
 
