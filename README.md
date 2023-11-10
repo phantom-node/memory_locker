@@ -1,4 +1,5 @@
 # MemoryLocker
+
 [![Gem Version](https://badge.fury.io/rb/memory_locker.svg)](https://badge.fury.io/rb/memory_locker)
 
 Lock memory containing sensitive data (such as passwords or cryptographic keys) to prevent it from being swapped
@@ -28,11 +29,11 @@ Refer to gem documentation for instructions.
 
 If you use Debian-based system, you can skip building by installing precompiled gem package:
 
-    $ sudo apt install ruby-ffi
+    sudo apt install ruby-ffi
 
 ## Installation
 
-    $ gem install memory_locker
+    gem install memory_locker
 
 ## Usage
 

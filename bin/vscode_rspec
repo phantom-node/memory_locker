@@ -5,4 +5,4 @@
 # bin/vscode_rspec
 
 opts = ARGV.join(" ")
-system %{SPEC_OPTS="#{opts}" bundle exec rake spec}
+system %(SPEC_OPTS="#{opts}" bundle exec rake spec)
