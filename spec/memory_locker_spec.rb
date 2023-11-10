@@ -12,11 +12,9 @@ RSpec.describe MemoryLocker do
 
   let(:libc_loader) { spy }
   let :libc do
-    # rubocop:disable RSpec/VerifiedDoubles
     double("Libc").tap do |obj|
       allow(obj).to receive(:mlockall).and_return(mlockall_result)
     end
-    # rubocop:enable RSpec/VerifiedDoubles
   end
   let(:unsupported_error) { Class.new StandardError }
   let(:libc_not_found_error) { Class.new StandardError }
