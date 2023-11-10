@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'memory_locker/libc'
-require 'English'
+require "memory_locker/libc"
+require "English"
 
 MemoryLocker.class_eval <<-RUBY, __FILE__, __LINE__ + 1
   public_constant :Libc
@@ -17,7 +17,7 @@ RSpec.describe MemoryLocker::Libc do
   def lock_and_check_impact
     before = locked
     libc.mlockall
-    exit locked == before ? 1 : 0
+    exit (locked == before) ? 1 : 0
   end
 
   def fork_status(&block)
@@ -33,61 +33,61 @@ RSpec.describe MemoryLocker::Libc do
     end
   end
 
-  context 'without limits on locking' do
-    it 'locks memory' do
+  context "without limits on locking" do
+    it "locks memory" do
       status = fork_status { lock_and_exit }
       expect(status).to eq(0)
     end
 
-    it 'changes amount of locked memory' do
+    it "changes amount of locked memory" do
       status = fork_status { lock_and_check_impact }
       expect(status).to eq(0)
     end
 
-    it 'returns 2 element array' do
-      array_test = ->(result) { result.is_a?(Array) && result.size == 2 ? 0 : 1 }
+    it "returns 2 element array" do
+      array_test = ->(result) { (result.is_a?(Array) && result.size == 2) ? 0 : 1 }
       status = fork_status { lock_and_exit(array_test) }
       expect(status).to eq(0)
     end
 
-    it 'returns array of integers' do
-      array_test = ->(result) { result.all? { |e| e.is_a?(Integer) } ? 0 : 1 }
+    it "returns array of integers" do
+      array_test = ->(result) { (result.all? { |e| e.is_a?(Integer) }) ? 0 : 1 }
       status = fork_status { lock_and_exit(array_test) }
       expect(status).to eq(0)
     end
 
-    it 'returns errno' do
-      array_test = ->(result) { result[1] == FFI.errno ? 0 : 1 }
+    it "returns errno" do
+      array_test = ->(result) { (result[1] == FFI.errno) ? 0 : 1 }
       status = fork_status { lock_and_exit(array_test) }
       expect(status).to eq(0)
     end
   end
 
-  context 'with limits on locking' do
-    it 'fails to lock memory' do
+  context "with limits on locking" do
+    it "fails to lock memory" do
       status = limited_fork_status { lock_and_exit }
       expect(status).to eq(255) # exit(-1)
     end
 
-    it 'does not change amount of locked memory' do
+    it "does not change amount of locked memory" do
       status = limited_fork_status { lock_and_check_impact }
       expect(status).to eq(1)
     end
 
-    it 'returns 2 element array' do
-      array_test = ->(result) { result.is_a?(Array) && result.size == 2 ? 0 : 1 }
+    it "returns 2 element array" do
+      array_test = ->(result) { (result.is_a?(Array) && result.size == 2) ? 0 : 1 }
       status = limited_fork_status { lock_and_exit(array_test) }
       expect(status).to eq(0)
     end
 
-    it 'returns array of integers' do
-      array_test = ->(result) { result.all? { |e| e.is_a?(Integer) } ? 0 : 1 }
+    it "returns array of integers" do
+      array_test = ->(result) { (result.all? { |e| e.is_a?(Integer) }) ? 0 : 1 }
       status = limited_fork_status { lock_and_exit(array_test) }
       expect(status).to eq(0)
     end
 
-    it 'returns errno' do
-      array_test = ->(result) { result[1] == FFI.errno ? 0 : 1 }
+    it "returns errno" do
+      array_test = ->(result) { (result[1] == FFI.errno) ? 0 : 1 }
       status = limited_fork_status { lock_and_exit(array_test) }
       expect(status).to eq(0)
     end
@@ -96,7 +96,7 @@ RSpec.describe MemoryLocker::Libc do
   private
 
   def locked
-    File.readlines('/proc/self/status').grep(/^VmLck/)
-        .first.split("\t").last.strip
+    File.readlines("/proc/self/status").grep(/^VmLck/)
+      .first.split("\t").last.strip
   end
 end
