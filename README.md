@@ -27,7 +27,7 @@ The gem requires [ffi gem](https://github.com/ffi/ffi), which will be automatica
 and built during installation. The build process requires a compiler and headers.
 Refer to gem documentation for instructions.
 
-If you use Debian-based system, you can skip building by installing precompiled gem package:
+If you use a Debian-based system, you can skip building by installing a precompiled gem package:
 
     sudo apt install ruby-ffi
 
@@ -46,13 +46,13 @@ To lock the memory of your process, add the following code early in the app life
 
 ### Optional installation
 
-If you don't want to force the user to install `memory_locker` gem, you can make it optional.
+If you don't want to force the user to install the `memory_locker` gem, you can make it optional.
 If the user doesn't have it installed, the warning will appear, but your app will run.
 
     begin
       require 'memory_locker'
     rescue LoadError
-      warn 'Failed to lock memory. To fix install `memory_locker` gem.'
+      warn 'Failed to lock memory. To fix install the `memory_locker` gem.'
     else
       MemoryLocker.call
     end
@@ -63,7 +63,7 @@ If your OS is unsupported or there was a locking error, you will get an exceptio
 
 ## Testing
 
-Locking the memory of your app when testing is not needed, and if you use an unsupported OS will brake your app.
+Locking the memory of your app when testing is not needed, and if you use an unsupported OS will break your app.
 
 As only the `#call` method is being used, you can easily replace `MemoryLocker` with empty lambda `->{}`.
 
