@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require "memory_locker/libc"
+require "memory_locker/libc_ffi"
 require "English"
 
 MemoryLocker.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-  public_constant :Libc
+  public_constant :LibcFfi
 RUBY
 
-RSpec.describe MemoryLocker::Libc do
+RSpec.describe MemoryLocker::LibcFfi do
   subject(:libc) { described_class }
 
   def lock_and_exit(converter = ->(result) { result[0] })

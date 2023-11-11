@@ -25,8 +25,8 @@ class MemoryLocker
 
   attr_reader :libc
 
-  def initialize(libc_loader: -> { require_relative "memory_locker/libc" },
-    libc_fetcher: -> { Libc },
+  def initialize(libc_loader: -> { require_relative "memory_locker/libc_ffi" },
+    libc_fetcher: -> { LibcFfi },
     unsupported_error: FFI::NotFoundError,
     libc_not_found_error: LoadError)
     libc_loader.call

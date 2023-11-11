@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class MemoryLocker
-  # Low level interface to libc
-  module Libc
+  # Low level interface to libc using FFI
+  module LibcFfi
     # Those values should remain the same on all POSIX systems
     MCL_CURRENT = 1
     MCL_FUTURE = 2
@@ -18,5 +18,5 @@ class MemoryLocker
     end
   end
 
-  private_constant :Libc
+  private_constant :LibcFfi
 end
