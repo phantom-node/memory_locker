@@ -1,3 +1,7 @@
+## [1.0.3] - 2023-11-12
+
+- Use Fiddle (part of Ruby standard library) instead of FFI gem
+
 ## [1.0.2] - 2023-07-28
 
 - Don't load libc if already loaded in the current process
