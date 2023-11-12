@@ -1,39 +1,48 @@
 # frozen_string_literal: true
 
 require_relative "memory_locker/version"
-require "ffi"
+require "fiddle"
 
 # Lock process memory, so it won't be swapped by the kernel.
 # It is implemented as a one-way operation: there is no unlock.
 # That's because it's hard to properly clean memory in Ruby.
 class MemoryLocker
   Error = Class.new StandardError
-  UnsupportedError = Class.new Error
-  LibcNotFoundError = Class.new Error
   LockingError = Class.new Error
+  UnsupportedError = Class.new Error
+
+  # Those values should remain the same on all POSIX systems
+  MCL_CURRENT = 1
+  MCL_FUTURE = 2
+  private_constant :MCL_CURRENT, :MCL_FUTURE
 
   def call
-    result, errno = libc.mlockall
-    raise LockingError, "Locking of memory failed with errno #{errno}" unless result.zero?
+    raise LockingError, "Locking of memory failed" unless function.call(MCL_CURRENT | MCL_FUTURE).zero?
   end
 
   def self.call
-    new.call
+    new.send :call
   end
 
   private
 
-  attr_reader :libc
-
-  def initialize(libc_loader: -> { require_relative "memory_locker/libc_ffi" },
-    libc_fetcher: -> { LibcFfi },
-    unsupported_error: FFI::NotFoundError,
-    libc_not_found_error: LoadError)
-    libc_loader.call
-    @libc = libc_fetcher.call
+  def function
+    lazy_function.call
   rescue unsupported_error => e
-    raise UnsupportedError, "System does not support mlockall()", cause: e
-  rescue libc_not_found_error => e
-    raise LibcNotFoundError, "Failed to find C library", cause: e
+    raise UnsupportedError, "Memory locking not supported: #{e.message}", cause: e
+  end
+
+  attr_reader :lazy_function, :unsupported_error
+
+  def initialize(
+    libc_path: nil,
+    function_name: "mlockall",
+    lazy_handle: -> { Fiddle.dlopen(libc_path)[function_name] },
+    lazy_function: -> { Fiddle::Function.new(lazy_handle.call, [Fiddle::TYPE_INT], Fiddle::TYPE_INT) },
+    unsupported_error: Fiddle::DLError
+  )
+
+    @lazy_function = lazy_function
+    @unsupported_error = unsupported_error
   end
 end
