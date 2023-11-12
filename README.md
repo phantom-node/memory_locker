@@ -23,49 +23,28 @@ Subprocesses don't inherit memory locking. Make sure to lock memory in each one 
 OS support for [mlockall()](https://linux.die.net/man/2/mlockall) is required.
 Will work on most Unixes except macOS. Windows is not supported.
 
-The gem requires [ffi gem](https://github.com/ffi/ffi), which will be automatically downloaded
-and built during installation. The build process requires a compiler and headers.
-Refer to gem documentation for instructions.
-
-If you use a Debian-based system, you can skip building by installing a precompiled gem package:
-
-    sudo apt install ruby-ffi
-
 ## Installation
 
     gem install memory_locker
 
 ## Usage
 
-### Enforced installation
-
 To lock the memory of your process, add the following code early in the app lifetime:
 
     require 'memory_locker'
-    MemoryLocker.call
-
-### Optional installation
-
-If you don't want to force the user to install the `memory_locker` gem, you can make it optional.
-If the user doesn't have it installed, the warning will appear, but your app will run.
-
-    begin
-      require 'memory_locker'
-    rescue LoadError
-      warn 'Failed to lock memory. To fix install the `memory_locker` gem.'
-    else
-      MemoryLocker.call
-    end
+    MemoryLocker.call     # short syntax
+    MemoryLocker.new.call # if you prefer to use instance explicitly
 
 ## Exceptions
 
-If your OS is unsupported or there was a locking error, you will get an exception descending from `MemoryLocker::Error`.
+If your OS is unsupported or there is a locking error, you will get an exception descending from `MemoryLocker::Error`.
 
 ## Testing
 
 Locking the memory of your app when testing is not needed, and if you use an unsupported OS will break your app.
 
-As only the `#call` method is being used, you can easily replace `MemoryLocker` with empty lambda `->{}`.
+As only the `#call` method is being used, you can easily replace `MemoryLocker` class or instance with an empty
+lambda `->{}` in your tests.
 
 ## Development
 
@@ -78,7 +57,7 @@ push git commits and the created tag, and push the `.gem` file to [rubygems.org]
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/phantom-node/memory_locker.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/phantom-node/memory_locker>.
 This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to
 the [code of conduct](https://github.com/phantom-node/memory_locker/blob/master/CODE_OF_CONDUCT.md).
 
